@@ -102,7 +102,7 @@ router.put('/utilisateurs/:id', async (req, res) => {
 
     // Mettre à jour l'utilisateur
     try {
-        const [utilisateur] = await db.query('SELECT * FROM auteurs WHERE id_auteur = ?', [id]);
+        const [utilisateur] = await db.query('SELECT * FROM utilisateurs WHERE id_utilisateur = ?', [id]);
 
         if (utilisateur.length === 0) {
             return res.status(404).json({message: `L'utilisateur avec l'id '${id}' n'existe pas !`});

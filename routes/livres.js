@@ -96,6 +96,17 @@ router.put('/livres/:id', async (req, res) => {
         return res.status(400).json({message: "L'identifiant doit être un nombre !"});
     }
 
+    // Vérifier si le livre existe
+    try {
+        const [rows] = await db.query('SELECT * FROM livres WHERE id_livre = ?', [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({message: `Livre avec l'id '${id}' non trouvé !`});
+        }
+    } catch (err) {
+        return res.status(500).json({error: err.message});
+    }
+
     // Vérifier si les champs sont vides
     if (!titre) {
         return res.status(400).json({message: "L'argument 'titre' est requis !"});
@@ -112,17 +123,6 @@ router.put('/livres/:id', async (req, res) => {
         return res.status(400).json({message: "L'argument 'id_genre' doit être un nombre !"});
     } else if (isNaN(id_auteur)) {
         return res.status(400).json({message: "L'argument 'id_auteur' doit être un nombre !"});
-    }
-
-    // Vérifier si le livre existe
-    try {
-        const [rows] = await db.query('SELECT * FROM livres WHERE id_livre = ?', [id]);
-
-        if (rows.length === 0) {
-            return res.status(404).json({message: `Livre avec l'id '${id}' non trouvé !`});
-        }
-    } catch (err) {
-        return res.status(500).json({error: err.message});
     }
 
     // Vérifier si le genre existe
