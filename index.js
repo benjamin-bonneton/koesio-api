@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const PORT = 3001;
 const VERSION = '1'
 
@@ -12,6 +13,7 @@ const utilisateursRouter = require('./routes/utilisateurs');
 const authentification = require('./packages/authentification');
 
 app.use(express.json())
+app.use(cors()); 
 
 app.use(`/api/v${VERSION}`, authentification, livresRouter);
 app.use(`/api/v${VERSION}`, authentification, auteursRouter);
