@@ -61,12 +61,27 @@ describe('Livres', () => {
         expect(response.body.message).toBe("L'argument 'id_auteur' est requis !");
     });
 
+    it("Retourn 400 si l'isbn est manquant", async () => {
+        const response = await request(app)
+            .post('/livres')
+            .set('username', process.env.API_USERNAME)
+            .set('key_pass', process.env.API_KEY)
+            .send({
+                titre: "Titre",
+                id_genre: 1,
+                id_auteur: 1
+            });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe("L'argument 'isbn' est requis !");
+    });
+
     it("Retourne 400 si le titre n'est pas une chaîne de caractères", async () => {
         const response = await request(app)
             .post('/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: 1,
                 id_genre: 1,
                 id_auteur: 1
@@ -81,6 +96,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: "Genre",
                 id_auteur: 1
@@ -95,6 +111,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1,
                 id_auteur: "Auteur"
@@ -103,12 +120,28 @@ describe('Livres', () => {
         expect(response.body.message).toBe("L'argument 'id_auteur' doit être un nombre !");
     });
 
+    it("Retourne 400 si l'isbn n'est pas une chaîne de caractères", async () => {
+        const response = await request(app)
+            .post('/livres')
+            .set('username', process.env.API_USERNAME)
+            .set('key_pass', process.env.API_KEY)
+            .send({
+                titre: "Titre",
+                id_genre: 1,
+                id_auteur: 1,
+                isbn: 1
+            });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe("L'argument 'isbn' doit être une chaîne de caractères !");
+    });
+
     it("Retourne 404 si le genre n'existe pas", async () => {
         const response = await request(app)
             .post('/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1000,
                 id_auteur: 1
@@ -123,6 +156,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1,
                 id_auteur: 1000
@@ -137,6 +171,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1,
                 id_auteur: 1
@@ -235,12 +270,27 @@ describe('Livres', () => {
         expect(response.body.message).toBe("L'argument 'id_auteur' est requis !");
     });
 
+    it("Retourne 400 si l'isbn est manquant", async () => {
+        const response = await request(app)
+            .put('/livres/1')
+            .set('username', process.env.API_USERNAME)
+            .set('key_pass', process.env.API_KEY)
+            .send({
+                titre: "Titre",
+                id_genre: 1,
+                id_auteur: 1
+            });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe("L'argument 'isbn' est requis !");
+    });
+
     it("Retourne 400 si le titre n'est pas une chaîne de caractères", async () => {
         const response = await request(app)
             .put('/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: 1,
                 id_genre: 1,
                 id_auteur: 1
@@ -255,6 +305,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: "Genre",
                 id_auteur: 1
@@ -269,6 +320,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1,
                 id_auteur: "Auteur"
@@ -277,12 +329,28 @@ describe('Livres', () => {
         expect(response.body.message).toBe("L'argument 'id_auteur' doit être un nombre !");
     });
 
+    it("Retourne 400 si l'isbn n'est pas une chaîne de caractères", async () => {
+        const response = await request(app)
+            .put('/livres/1')
+            .set('username', process.env.API_USERNAME)
+            .set('key_pass', process.env.API_KEY)
+            .send({
+                titre: "Titre",
+                id_genre: 1,
+                id_auteur: 1,
+                isbn: 1
+            });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe("L'argument 'isbn' doit être une chaîne de caractères !");
+    });
+
     it("Retourne 404 si le genre n'existe pas", async () => {
         const response = await request(app)
             .put('/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1000,
                 id_auteur: 1
@@ -297,6 +365,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1,
                 id_auteur: 1000
@@ -311,6 +380,7 @@ describe('Livres', () => {
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
+                isbn: "1234",
                 titre: "Titre",
                 id_genre: 1,
                 id_auteur: 1

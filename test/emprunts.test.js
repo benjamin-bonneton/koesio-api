@@ -13,7 +13,7 @@ describe('Emprunts', () => {
 
         await db.query('DELETE FROM livres');
         await db.query('ALTER TABLE livres AUTO_INCREMENT = 1');
-        await db.query('INSERT INTO livres (titre, id_genre, id_auteur) VALUES (?, ?, ?)', ["Le test", 1, 1]);
+        await db.query('INSERT INTO livres (isbn, titre, id_genre, id_auteur) VALUES (?, ?, ?, ?)', ["123", "Le test", 1, 1]);
 
         await db.query('DELETE FROM utilisateurs');
         await db.query('ALTER TABLE utilisateurs AUTO_INCREMENT = 1');
