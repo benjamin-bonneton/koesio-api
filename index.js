@@ -2,7 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
+const VERSION = '1'
 
 const livresRouter = require('./routes/livres');
 const auteursRouter = require('./routes/auteurs');
@@ -12,10 +13,10 @@ const authentification = require('./packages/authentification');
 
 app.use(express.json())
 
-app.use('/', authentification, livresRouter);
-app.use('/', authentification, auteursRouter);
-app.use('/', authentification, empruntsRouter);
-app.use('/', authentification, utilisateursRouter);
+app.use(`/api/v${VERSION}`, authentification, livresRouter);
+app.use(`/api/v${VERSION}`, authentification, auteursRouter);
+app.use(`/api/v${VERSION}`, authentification, empruntsRouter);
+app.use(`/api/v${VERSION}`, authentification, utilisateursRouter);
 
 module.exports = app;
 
