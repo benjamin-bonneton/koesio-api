@@ -6,6 +6,7 @@ const db = require('../packages/db');
 // Ajouter un livre
 router.post('/livres', async (req, res) => {
     // Récupérer les données
+    const {isbn} = req.body;
     const {titre} = req.body;
     const {id_genre} = req.body;
     const {id_auteur} = req.body;
@@ -17,6 +18,8 @@ router.post('/livres', async (req, res) => {
         return res.status(400).json({message: "L'argument 'id_genre' est requis !"});
     } else if (!id_auteur) {
         return res.status(400).json({message: "L'argument 'id_auteur' est requis !"});
+    } else if (!isbn) {
+        return res.status(400).json({message: "L'argument 'isbn' est requis !"});
     }
 
     // Vérifier l'état des données
@@ -26,6 +29,8 @@ router.post('/livres', async (req, res) => {
         return res.status(400).json({message: "L'argument 'id_genre' doit être un nombre !"});
     } else if (isNaN(id_auteur)) {
         return res.status(400).json({message: "L'argument 'id_auteur' doit être un nombre !"});
+    } else if (typeof isbn !== 'string') {
+        return res.status(400).json({message: "L'argument 'isbn' doit être une chaîne de caractères !"});
     }
 
     // Vérifier si le genre existe
@@ -50,9 +55,20 @@ router.post('/livres', async (req, res) => {
         return res.status(500).json({error: err.message});
     }
 
+    // Vérifier si le livre existe déjà
+    try {
+        const [rows] = await db.query('SELECT * FROM livres WHERE isbn = ?', [isbn]);
+
+        if (rows.length > 0) {
+            return res.status(409).json({message: `Le livre avec l'ISBN '${isbn}' existe déjà !`});
+        }
+    } catch (err) {
+        return res.status(500).json({error: err.message});
+    }
+
     // Ajouter à la base de données
     try {
-        await db.query('INSERT INTO livres (titre, id_genre, id_auteur) VALUES (?, ?, ?)', [titre, id_genre, id_auteur]);
+        await db.query('INSERT INTO livres (isbn, titre, id_genre, id_auteur) VALUES (?, ?, ?, ?)', [isbn, titre, id_genre, id_auteur]);
         return res.status(201).json({message: "Livre ajouté avec succès !"});
     } catch (err) {
         return res.status(500).json({error: err.message});
@@ -87,6 +103,7 @@ router.get('/livres/:id', async (req, res) => {
 router.put('/livres/:id', async (req, res) => {
     // Récupérer les données
     const {id} = req.params;
+    const {isbn} = req.body;
     const {titre} = req.body;
     const {id_genre} = req.body;
     const {id_auteur} = req.body;
@@ -114,6 +131,8 @@ router.put('/livres/:id', async (req, res) => {
         return res.status(400).json({message: "L'argument 'id_genre' est requis !"});
     } else if (!id_auteur) {
         return res.status(400).json({message: "L'argument 'id_auteur' est requis !"});
+    }  else if (!isbn) {
+        return res.status(400).json({message: "L'argument 'isbn' est requis !"});
     }
 
     // Vérifier l'état des données
@@ -123,6 +142,8 @@ router.put('/livres/:id', async (req, res) => {
         return res.status(400).json({message: "L'argument 'id_genre' doit être un nombre !"});
     } else if (isNaN(id_auteur)) {
         return res.status(400).json({message: "L'argument 'id_auteur' doit être un nombre !"});
+    } else if (typeof isbn !== 'string') {
+        return res.status(400).json({message: "L'argument 'isbn' doit être une chaîne de caractères !"});
     }
 
     // Vérifier si le genre existe
@@ -147,9 +168,20 @@ router.put('/livres/:id', async (req, res) => {
         return res.status(500).json({error: err.message});
     }
 
+    // Vérifier si l'isbn existe déjà et que ce n'est pas le même
+    try {
+        const [rows] = await db.query('SELECT * FROM livres WHERE isbn = ? AND id_livre != ?', [isbn, id]);
+
+        if (rows.length > 0) {
+            return res.status(409).json({message: `Le livre avec l'ISBN '${isbn}' existe déjà !`});
+        }
+    } catch (err) {
+        return res.status(500).json({error: err.message});
+    }
+
     // Mettre à jour le livre
     try {
-        await db.query('UPDATE livres SET titre = ?, id_genre = ?, id_auteur = ? WHERE id_livre = ?', [titre, id_genre, id_auteur, id]);
+        await db.query('UPDATE livres SET isbn = ?, titre = ?, id_genre = ?, id_auteur = ? WHERE id_livre = ?', [isbn, titre, id_genre, id_auteur, id]);
         return res.status(200).json({message: "Livre mis à jour avec succès !"});
     } catch (err) {
         return res.status(500).json({error: err.message});
@@ -189,6 +221,7 @@ router.delete('/livres/:id', async (req, res) => {
 // Obtenir les livres avec les paramètres spécifiés
 router.get('/livres', async (req, res) => {
     // Récupérer les paramètres
+    const {isbn} = req.query;
     const {titre} = req.query;
     const {id_auteur} = req.query;
     const {id_genre} = req.query;
@@ -197,6 +230,12 @@ router.get('/livres', async (req, res) => {
     // Créer la requête
     let query = 'SELECT * FROM livres';
     let params = [];
+
+    // Vérifier l'ISBN
+    if (isbn && typeof isbn === 'string') {
+        query += ' WHERE isbn = ?';
+        params.push(isbn);
+    }
 
     // Vérifier le titre
     if (titre && typeof titre === 'string') {
