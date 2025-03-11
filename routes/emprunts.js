@@ -119,7 +119,13 @@ router.get('/emprunts', async (req, res) => {
     const {en_cours} = req.query;
 
     // Créer la requête
-    let query = 'SELECT * FROM emprunts';
+    let query = 'SELECT\
+        emprunts.id_emprunt, emprunts.date_emprunt, emprunts.date_retour,\
+        livres.titre as livre_titre, livres.isbn as livre_isbn,\
+        utilisateurs.nom as utilisateur_nom, utilisateurs.prenom as utilisateur_prenom\
+        FROM emprunts\
+        INNER JOIN livres ON emprunts.id_livre = livres.id_livre\
+        INNER JOIN utilisateurs ON emprunts.id_utilisateur = utilisateurs.id_utilisateur';
     let params = [];
 
     // Vérifier le livre

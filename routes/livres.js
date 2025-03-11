@@ -228,7 +228,13 @@ router.get('/livres', async (req, res) => {
     const {disponible} = req.query;
 
     // Créer la requête
-    let query = 'SELECT * FROM livres';
+    let query = 'SELECT\
+    livres.id_livre, livres.isbn, livres.titre,\
+    genres.nom as genre_nom,\
+    auteurs.nom as auteur_nom, auteurs.prenom as auteur_prenom\
+    FROM livres\
+    INNER JOIN genres ON livres.id_genre = genres.id_genre\
+    INNER JOIN auteurs ON livres.id_auteur = auteurs.id_auteur';
     let params = [];
 
     // Vérifier l'ISBN
