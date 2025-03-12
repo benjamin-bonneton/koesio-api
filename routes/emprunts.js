@@ -165,7 +165,7 @@ router.get('/emprunts', async (req, res) => {
         } else {
             query += ' AND';
         }
-        query += ' id_livre = ?';
+        query += ' emprunts.id_livre = ?';
         params.push(id_livre);
     }
 
@@ -176,7 +176,7 @@ router.get('/emprunts', async (req, res) => {
         } else {
             query += ' AND';
         }
-        query += ' id_utilisateur = ?';
+        query += ' emprunts.id_utilisateur = ?';
         params.push(id_utilisateur);
     }
 
@@ -189,14 +189,15 @@ router.get('/emprunts', async (req, res) => {
         }
 
         if (en_cours === 'true') {
-            query += ' date_retour IS NULL';
+            query += ' emprunts.date_retour IS NULL';
         } else {
-            query += ' date_retour IS NOT NULL';
+            query += ' emprunts.date_retour IS NOT NULL';
         }
     }
 
     // Exécuter la requête
     try {
+
         const [rows] = await db.query(query, params);
 
         if (rows.length === 0) {

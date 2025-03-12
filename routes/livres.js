@@ -87,13 +87,20 @@ router.get('/livres/:id', async (req, res) => {
 
     try {
         // Vérifier si le livre existe
-        const [rows] = await db.query('SELECT * FROM livres WHERE id_livre = ?', [id]);
+        const [rows] = await db.query('SELECT\
+            livres.isbn as livre_isbn, livres.titre as livre_titre,\
+            genres.nom as genre_nom,\
+            auteurs.nom as auteur_nom, auteurs.prenom as auteur_prenom\
+            FROM livres\
+            INNER JOIN genres ON livres.id_genre = genres.id_genre\
+            INNER JOIN auteurs ON livres.id_auteur = auteurs.id_auteur\
+            WHERE id_livre = ?', [id]);
         if (rows.length === 0) {
             return res.status(404).json({message: `Livre avec l'id '${id}' non trouvé !`});
         }
 
         // Récupérer les informations
-        return res.status(200).json(rows);
+        return res.status(200).json(rows[0]);
     } catch (err) {
         return res.status(500).json({error: err.message});
     }
@@ -219,7 +226,7 @@ router.delete('/livres/:id', async (req, res) => {
     }
 });
 
-// Obtenir les livres avec les paramètres spécifiés
+// Recherche des livres par auteur, par genre, par ISBN, par titre ou par disponibilité
 router.get('/livres', async (req, res) => {
     // Récupérer les paramètres
     const {isbn} = req.query;
@@ -240,7 +247,7 @@ router.get('/livres', async (req, res) => {
 
     // Vérifier l'ISBN
     if (isbn && typeof isbn === 'string') {
-        query += ' WHERE isbn = ?';
+        query += ' WHERE livres.isbn = ?';
         params.push(isbn);
     }
 
@@ -251,7 +258,7 @@ router.get('/livres', async (req, res) => {
         } else {
             query += ' AND';
         }
-        query += ' titre LIKE ?';
+        query += ' livres.titre LIKE ?';
         params.push(`%${titre}%`);
     }
 
@@ -265,7 +272,7 @@ router.get('/livres', async (req, res) => {
             } else {
                 query += ' AND';
             }
-            query += ' id_auteur IN (' + '?'.repeat(auteurs.length).split('').join(',') + ')';
+            query += ' livres.id_auteur IN (' + '?'.repeat(auteurs.length).split('').join(',') + ')';
             params.push(...auteurs);
         }
     }
@@ -280,7 +287,7 @@ router.get('/livres', async (req, res) => {
             } else {
                 query += ' AND';
             }
-            query += ' id_genre IN (' + '?'.repeat(genres.length).split('').join(',') + ')';
+            query += ' livres.id_genre IN (' + '?'.repeat(genres.length).split('').join(',') + ')';
             params.push(...genres);
         }
     }
@@ -292,7 +299,7 @@ router.get('/livres', async (req, res) => {
         } else {
             query += ' AND';
         }
-        query += ' id_livre NOT IN (SELECT id_livre FROM emprunts WHERE date_retour IS NULL)';
+        query += ' livres.id_livre NOT IN (SELECT id_livre FROM emprunts WHERE date_retour IS NULL)';
     }
 
     // Exécuter la requête

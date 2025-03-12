@@ -12,10 +12,12 @@ const empruntsRouter = require('./routes/emprunts');
 const utilisateursRouter = require('./routes/utilisateurs');
 const genresRouter = require('./routes/genres');
 const authentification = require('./packages/authentification');
+const loginRouter = require('./routes/login');
 
 app.use(express.json())
 app.use(cors()); 
 
+app.use(`/api/v${VERSION}`, loginRouter);
 app.use(`/api/v${VERSION}`, authentification, livresRouter);
 app.use(`/api/v${VERSION}`, authentification, auteursRouter);
 app.use(`/api/v${VERSION}`, authentification, empruntsRouter);
