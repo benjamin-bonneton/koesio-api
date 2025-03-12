@@ -17,7 +17,7 @@ describe('Auteurs', () => {
     // Ajouter un auteur
     it("Retourne 400 si le nom est manquant", async () => {
         const response = await request(app)
-            .post('/auteurs')
+            .post('/api/v1/auteurs')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({prenom: 'Benjamin'});
@@ -27,7 +27,7 @@ describe('Auteurs', () => {
 
     it("Retourne 400 si le prénom est manquant", async () => {
         const response = await request(app)
-            .post('/auteurs')
+            .post('/api/v1/auteurs')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({nom: 'Bonneton'});
@@ -37,7 +37,7 @@ describe('Auteurs', () => {
 
     it("Retourne 201 si l'auteur est ajouté", async () => {
         const response = await request(app)
-            .post('/auteurs')
+            .post('/api/v1/auteurs')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -51,7 +51,7 @@ describe('Auteurs', () => {
     // Lecture d'un auteur
     it("Retourne 400 si l'id n'est pas un nombre", async () => {
         const response = await request(app)
-            .get('/auteurs/test')
+            .get('/api/v1/auteurs/test')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -61,7 +61,7 @@ describe('Auteurs', () => {
 
     it("Retourne 404 si l'id n'existe pas", async () => {
         const response = await request(app)
-            .get('/auteurs/2')
+            .get('/api/v1/auteurs/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -71,7 +71,7 @@ describe('Auteurs', () => {
 
     it("Retourne 200 si l'auteur existe", async () => {
         const response = await request(app)
-            .get('/auteurs/1')
+            .get('/api/v1/auteurs/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -81,7 +81,7 @@ describe('Auteurs', () => {
     // Lecture de tous les auteurs
     it("Retourne 200 si les auteurs sont listés", async () => {
         const response = await request(app)
-            .get('/auteurs')
+            .get('/api/v1/auteurs')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -91,7 +91,7 @@ describe('Auteurs', () => {
     // Mettre à jour un auteur
     it("Retourne 400 si l'id n'est pas un nombre", async () => {
         const response = await request(app)
-            .put('/auteurs/test')
+            .put('/api/v1/auteurs/test')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -101,7 +101,7 @@ describe('Auteurs', () => {
 
     it("Retourne 404 si l'id n'existe pas", async () => {
         const response = await request(app)
-            .put('/auteurs/2')
+            .put('/api/v1/auteurs/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send(
@@ -116,7 +116,7 @@ describe('Auteurs', () => {
 
     it("Retourne 400 si le nom n'est pas défini", async () => {
         const response = await request(app)
-            .put('/auteurs/2')
+            .put('/api/v1/auteurs/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send(
@@ -130,7 +130,7 @@ describe('Auteurs', () => {
 
     it("Retourne 400 si le prénom n'est pas défini", async () => {
         const response = await request(app)
-            .put('/auteurs/2')
+            .put('/api/v1/auteurs/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send(
@@ -144,7 +144,7 @@ describe('Auteurs', () => {
 
     it("Retourne 200 si l'auteur est mis à jour", async () => {
         const response = await request(app)
-            .put('/auteurs/1')
+            .put('/api/v1/auteurs/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send(
@@ -160,7 +160,7 @@ describe('Auteurs', () => {
     // Supprimer un auteur
     it("Retourne 400 si l'id n'est pas un nombre", async () => {
         const response = await request(app)
-            .delete('/auteurs/test')
+            .delete('/api/v1/auteurs/test')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -170,7 +170,7 @@ describe('Auteurs', () => {
 
     it("Retourne 404 si l'id n'existe pas", async () => {
         const response = await request(app)
-            .delete('/auteurs/2')
+            .delete('/api/v1/auteurs/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -180,7 +180,7 @@ describe('Auteurs', () => {
 
     it("Retourne 200 si l'auteur est supprimé", async () => {
         const response = await request(app)
-            .delete('/auteurs/1')
+            .delete('/api/v1/auteurs/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();

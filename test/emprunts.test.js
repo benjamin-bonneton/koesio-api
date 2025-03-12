@@ -38,7 +38,7 @@ describe('Emprunts', () => {
     // Création d'un emprunt
     it("Retourne 400 si id_livre est manquant", async () => {
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -50,7 +50,7 @@ describe('Emprunts', () => {
 
     it("Retourne 400 si id_utilisateur est manquant", async () => {
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -62,7 +62,7 @@ describe('Emprunts', () => {
 
     it("Retourne 400 si id_livre n'est pas un nombre", async () => {
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -75,7 +75,7 @@ describe('Emprunts', () => {
 
     it("Retourne 400 si id_utilisateur n'est pas un nombre", async () => {
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -88,7 +88,7 @@ describe('Emprunts', () => {
 
     it("Retourne 404 si le livre n'existe pas", async () => {
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -101,7 +101,7 @@ describe('Emprunts', () => {
 
     it("Retourne 404 si l'utilisateur n'existe pas", async () => {
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -116,7 +116,7 @@ describe('Emprunts', () => {
         await db.query('INSERT INTO emprunts (id_livre, id_utilisateur, date_emprunt) VALUES (?, ?, ?)', [1, 1, new Date()]);
 
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -132,7 +132,7 @@ describe('Emprunts', () => {
         await db.query('ALTER TABLE emprunts AUTO_INCREMENT = 1');
 
         const response = await request(app)
-            .post('/emprunts')
+            .post('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -146,7 +146,7 @@ describe('Emprunts', () => {
     // Retour d'un emprunt
     it("Retourne 400 si id n'est pas un nombre", async () => {
         const response = await request(app)
-            .put('/emprunts/test')
+            .put('/api/v1/emprunts/test')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY);
         expect(response.statusCode).toBe(400);
@@ -155,7 +155,7 @@ describe('Emprunts', () => {
 
     it("Retourne 404 si l'emprunt n'existe pas", async () => {
         const response = await request(app)
-            .put('/emprunts/2')
+            .put('/api/v1/emprunts/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY);
         expect(response.statusCode).toBe(404);
@@ -164,7 +164,7 @@ describe('Emprunts', () => {
 
     it("Retourne 200 si l'emprunt est retourné", async () => {
         const response = await request(app)
-            .put('/emprunts/1')
+            .put('/api/v1/emprunts/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY);
         expect(response.statusCode).toBe(200);
@@ -174,7 +174,7 @@ describe('Emprunts', () => {
 
     it("Retourne 400 si l'emprunt est déjà retourné", async () => {
         const response = await request(app)
-            .put('/emprunts/1')
+            .put('/api/v1/emprunts/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY);
         expect(response.statusCode).toBe(400);
@@ -184,7 +184,7 @@ describe('Emprunts', () => {
     // Recherche des emprunts
     it("Retourne 200 si l'emprunt existe", async () => {
         const response = await request(app)
-            .get('/emprunts')
+            .get('/api/v1/emprunts')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY);
         expect(response.statusCode).toBe(200);

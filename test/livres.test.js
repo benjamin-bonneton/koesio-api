@@ -24,7 +24,7 @@ describe('Livres', () => {
     // Ajouter un livre
     it("Retourne 400 si le titre est manquant", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -37,7 +37,7 @@ describe('Livres', () => {
     
     it("Retourne 400 si l'id_genre est manquant", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -50,7 +50,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'id_auteur est manquant", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -63,7 +63,7 @@ describe('Livres', () => {
 
     it("Retourn 400 si l'isbn est manquant", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -77,7 +77,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si le titre n'est pas une chaîne de caractères", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -92,7 +92,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'id_genre n'est pas un nombre", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -107,7 +107,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'id_auteur n'est pas un nombre", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -122,7 +122,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'isbn n'est pas une chaîne de caractères", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -137,7 +137,7 @@ describe('Livres', () => {
 
     it("Retourne 404 si le genre n'existe pas", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -152,7 +152,7 @@ describe('Livres', () => {
 
     it("Retourne 404 si l'auteur n'existe pas", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -167,7 +167,7 @@ describe('Livres', () => {
 
     it("Retourne 200 si le livre est ajouté", async () => {
         const response = await request(app)
-            .post('/livres')
+            .post('/api/v1/livres')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -183,7 +183,7 @@ describe('Livres', () => {
     // Lecture d'un livre
     it("Retourne 400 si l'id n'est pas un nombre", async () => {
         const response = await request(app)
-            .get('/livres/test')
+            .get('/api/v1/livres/test')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -193,7 +193,7 @@ describe('Livres', () => {
 
     it("Retourne 404 si l'id n'existe pas", async () => {
         const response = await request(app)
-            .get('/livres/2')
+            .get('/api/v1/livres/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -203,7 +203,7 @@ describe('Livres', () => {
 
     it("Retourne 200 si le livre existe", async () => {
         const response = await request(app)
-            .get('/livres/1')
+            .get('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -213,7 +213,7 @@ describe('Livres', () => {
     // Mettre à jour un livre
     it("Retourne 400 si l'id n'est pas un nombre", async () => {
         const response = await request(app)
-            .put('/livres/test')
+            .put('/api/v1/livres/test')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -223,7 +223,7 @@ describe('Livres', () => {
 
     it("Retourne 404 si l'id n'existe pas", async () => {
         const response = await request(app)
-            .put('/livres/2')
+            .put('/api/v1/livres/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -233,7 +233,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si le titre est manquant", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -246,7 +246,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'id_genre est manquant", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -259,7 +259,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'id_auteur est manquant", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -272,7 +272,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'isbn est manquant", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -286,7 +286,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si le titre n'est pas une chaîne de caractères", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -301,7 +301,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'id_genre n'est pas un nombre", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -316,7 +316,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'id_auteur n'est pas un nombre", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -331,7 +331,7 @@ describe('Livres', () => {
 
     it("Retourne 400 si l'isbn n'est pas une chaîne de caractères", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -346,7 +346,7 @@ describe('Livres', () => {
 
     it("Retourne 404 si le genre n'existe pas", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -361,7 +361,7 @@ describe('Livres', () => {
 
     it("Retourne 404 si l'auteur n'existe pas", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -376,7 +376,7 @@ describe('Livres', () => {
 
     it("Retourne 200 si le livre est mis à jour", async () => {
         const response = await request(app)
-            .put('/livres/1')
+            .put('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send({
@@ -392,7 +392,7 @@ describe('Livres', () => {
     // Obtenir les livres avec les paramètres spécifiés
     it("Retourne 200 si les livres sont obtenus", async () => {
         const response = await request(app)
-            .get('/livres?id_auteur=1')
+            .get('/api/v1/livres?id_auteur=1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -402,7 +402,7 @@ describe('Livres', () => {
     // Supprimer un livre
     it("Retourne 400 si l'id n'est pas un nombre", async () => {
         const response = await request(app)
-            .delete('/livres/test')
+            .delete('/api/v1/livres/test')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -412,7 +412,7 @@ describe('Livres', () => {
 
     it("Retourne 404 si l'id n'existe pas", async () => {
         const response = await request(app)
-            .delete('/livres/2')
+            .delete('/api/v1/livres/2')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
@@ -422,7 +422,7 @@ describe('Livres', () => {
 
     it("Retourne 200 si le livre est supprimé", async () => {
         const response = await request(app)
-            .delete('/livres/1')
+            .delete('/api/v1/livres/1')
             .set('username', process.env.API_USERNAME)
             .set('key_pass', process.env.API_KEY)
             .send();
