@@ -134,7 +134,6 @@ router.delete('/auteurs/:id', async (req, res) => {
         }
 
         await db.query('DELETE FROM auteurs WHERE id_auteur = ?', [id]);
-        await db.query('UPDATE livres SET id_auteur = NULL WHERE id_auteur = ?', [id]);
         return res.status(200).json({message: "Auteur supprimé avec succès !"});
     } catch (err) {
         return res.status(500).json({error: err.message});

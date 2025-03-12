@@ -125,7 +125,7 @@ router.delete('/utilisateurs/:id', async (req, res) => {
         return res.status(400).json({message: "L'argument 'id' doit être un nombre !"});
     }
 
-    // Supprimer l'auteur
+    // Supprimer l'utilisateur
     try {
         const [utilisateur] = await db.query('SELECT * FROM utilisateurs WHERE id_utilisateur = ?', [id]);
 
@@ -134,7 +134,7 @@ router.delete('/utilisateurs/:id', async (req, res) => {
         }
 
         await db.query('DELETE FROM utilisateurs WHERE id_utilisateur = ?', [id]);
-        await db.query('UPDATE emprunts SET id_utilisateur = NULL WHERE id_utilisateur = ?', [id]);
+        await db.query('DELETE FROM emprunts WHERE id_utilisateur = ?', [id]);
         return res.status(200).json({message: "Utilisateur supprimé avec succès !"});
     } catch (err) {
         return res.status(500).json({error: err.message});

@@ -212,6 +212,7 @@ router.delete('/livres/:id', async (req, res) => {
     // Supprimer le livre
     try {
         await db.query('DELETE FROM livres WHERE id_livre = ?', [id]);
+        await db.query('DELETE FROM emprunts WHERE id_livre = ?', [id]);
         return res.status(200).json({message: "Livre supprimé avec succès !"});
     } catch (err) {
         return res.status(500).json({error: err.message});

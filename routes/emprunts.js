@@ -111,6 +111,36 @@ router.put('/emprunts/:id', async (req, res) => {
     }
 });
 
+// Supprimer un emprunt
+router.delete('/emprunts/:id', async (req, res) => {
+    // Récupérer l'identifiant
+    const {id} = req.params;
+
+    // Vérifier si l'identifiant est un nombre
+    if (isNaN(id)) {
+        return res.status(400).json({message: "L'identifiant doit être un nombre !"});
+    }
+
+    // Vérifier si l'emprunt existe
+    try {
+        const [rows] = await db.query('SELECT * FROM emprunts WHERE id_emprunt = ?', [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({message: `Emprunt avec l'id '${id}' non trouvé !`});
+        }
+    } catch (err) {
+        return res.status(500).json({error: err.message});
+    }
+
+    // Supprimer le l'emprunt
+    try {
+        await db.query('DELETE FROM emprunts WHERE id_emprunt = ?', [id]);
+        return res.status(200).json({message: "Emprunt supprimé avec succès !"});
+    } catch (err) {
+        return res.status(500).json({error: err.message});
+    }
+});
+
 // Recherche des emprunts par utilisateur, par livre ou par emprunt en cours
 router.get('/emprunts', async (req, res) => {
     // Récupérer les paramètres
